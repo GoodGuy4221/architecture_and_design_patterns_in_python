@@ -13,7 +13,10 @@ class GetRequests:
             for item in params:
                 # делим ключ и значение через =
                 k, v = item.split('=')
-                result[k] = v
+                if result.get(k):
+                    result[k].append(v)
+                else:
+                    result[k] = [v]
         return result
 
     @classmethod

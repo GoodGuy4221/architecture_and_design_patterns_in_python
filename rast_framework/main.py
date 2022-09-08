@@ -60,7 +60,7 @@ class Rust:
     def decode_value(data):
         new_data = {}
         for k, v in data.items():
-            val = bytes(v.replace('%', '=').replace("+", " "), 'UTF-8')
-            val_decode_str = decodestring(val).decode('UTF-8')
-            new_data[k] = val_decode_str
+            val = [bytes(item.replace('%', '=').replace("+", " "), 'UTF-8') for item in v]
+            val_decode: list = [decodestring(item).decode('UTF-8') for item in val]
+            new_data[k] = val_decode
         return new_data
