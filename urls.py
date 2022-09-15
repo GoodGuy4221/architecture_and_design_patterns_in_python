@@ -1,5 +1,5 @@
 from datetime import date
-from views import Index, Content, Still, About, Contacts
+import views as view
 
 
 # front controller
@@ -14,9 +14,13 @@ def other_front(request):
 fronts = [secret_front, other_front]
 
 routes = {
-    '/': Index(),
-    '/content/': Content(),
-    '/still/': Still(),
-    '/about/': About(),
-    '/contacts/': Contacts(),
+    '/': view.Index(),
+    '/about/': view.About(),
+    '/contacts/': view.Contacts(),
+    '/study_programs/': view.StudyPrograms(),
+    '/courses-list/': view.CoursesList(),
+    '/create-course/': view.CreateCourse(),
+    '/create-category/': view.CreateCategory(),
+    '/category-list/': view.CategoryList(),
+    '/copy-course/': view.CopyCourse(),
 }

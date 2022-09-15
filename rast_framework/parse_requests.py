@@ -1,34 +1,31 @@
-class GetRequests:
-
+class BaseRequest:
     @staticmethod
     def parse_input_data(data: str) -> dict:
         result = {}
         if data:
             # делим параметры через &
             params = data.split('&')
-
-            if not params:
-                params = data.split()
-
             for item in params:
                 # делим ключ и значение через =
                 k, v = item.split('=')
-                if result.get(k):
-                    result[k].append(v)
-                else:
-                    result[k] = [v]
+                result[k] = v
+
         return result
 
-    @classmethod
-    def get_request_params(cls, environ: dict) -> dict:
+
+class GetRequests(BaseRequest):
+
+    @staticmethod
+    def get_request_params(environ: dict) -> dict:
         # получаем параметры запроса
         query_string = environ['QUERY_STRING']
         # превращаем параметры в словарь
-        request_params = cls.parse_input_data(query_string)
+        request_params = GetRequests.parse_input_data(query_string)
+        print(request_params)
         return request_params
 
 
-class PostRequests:
+class PostRequests(BaseRequest):
 
     @staticmethod
     def get_wsgi_input_data(env) -> bytes:
@@ -36,7 +33,7 @@ class PostRequests:
         content_length_data = env.get('CONTENT_LENGTH')
         # приводим к int
         content_length = int(content_length_data) if content_length_data else 0
-        print(content_length)
+
         # считываем данные, если они есть
         # env['wsgi.input'] -> <class '_io.BufferedReader'>
         # запускаем режим чтения
@@ -45,15 +42,15 @@ class PostRequests:
             if content_length > 0 else b''
         return data
 
-    @staticmethod
-    def parse_wsgi_input_data(data: bytes, get_parse=GetRequests()) -> dict:
+    def parse_wsgi_input_data(self, data: bytes) -> dict:
         result = {}
         if data:
             # декодируем данные
             data_str = data.decode(encoding='utf-8')
-            print(f'строка после декод - {data_str}')
+
             # собираем их в словарь
-            result = get_parse.parse_input_data(data_str)
+            result = self.parse_input_data(data_str)
+            print(result)
         return result
 
     def get_request_params(self, environ):
