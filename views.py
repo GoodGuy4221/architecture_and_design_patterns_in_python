@@ -184,6 +184,7 @@ class CopyCourse:
 
 
 class Contacts:
+    @Debug(name='contacts')
     def __call__(self, request):
         context = {
             'page_title': 'Контакты',
