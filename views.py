@@ -2,11 +2,15 @@ from datetime import date
 
 from rast_framework.templator import render
 from patterns.generating_patterns import Engine, Logger
+from patterns.structural_patterns import AppRoute, Debug
 
 site = Engine()
 logger = Logger('main')
 
+routes = {}
 
+
+@AppRoute(routes=routes, url='/')
 class Index:
     """
     .
@@ -20,6 +24,7 @@ class Index:
         return '200 OK', render(template_name='index.html', **context)
 
 
+@AppRoute(routes=routes, url='/study_programs/')
 class StudyPrograms:
     """
     .
@@ -33,6 +38,7 @@ class StudyPrograms:
         return '200 OK', render('study_programs.html', **context)
 
 
+@AppRoute(routes=routes, url='/courses-list/')
 class CoursesList:
     """
     .
@@ -54,6 +60,7 @@ class CoursesList:
             return '200 OK', 'No courses have been added yet'
 
 
+@AppRoute(routes=routes, url='/about/')
 class About:
     """
     .
@@ -66,6 +73,7 @@ class About:
         return '200 OK', render('about.html', **context)
 
 
+@AppRoute(routes=routes, url='/create-course/')
 class CreateCourse:
     """
     .
@@ -104,6 +112,7 @@ class CreateCourse:
                 return '200 OK', 'No categories have been added yet'
 
 
+@AppRoute(routes=routes, url='/create-category/')
 class CreateCategory:
     """
     .
@@ -136,6 +145,7 @@ class CreateCategory:
                                     categories=categories)
 
 
+@AppRoute(routes=routes, url='/category-list/')
 class CategoryList:
     """
     .
@@ -147,10 +157,12 @@ class CategoryList:
                                 objects_list=site.categories)
 
 
+@AppRoute(routes=routes, url='/copy-course/')
 class CopyCourse:
     """
     .
     """
+
     def __call__(self, request):
         request_params = request['request_params']
 

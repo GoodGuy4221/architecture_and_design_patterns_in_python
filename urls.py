@@ -14,13 +14,7 @@ def other_front(request):
 fronts = [secret_front, other_front]
 
 routes = {
-    '/': view.Index(),
-    '/about/': view.About(),
     '/contacts/': view.Contacts(),
-    '/study_programs/': view.StudyPrograms(),
-    '/courses-list/': view.CoursesList(),
-    '/create-course/': view.CreateCourse(),
-    '/create-category/': view.CreateCategory(),
-    '/category-list/': view.CategoryList(),
-    '/copy-course/': view.CopyCourse(),
 }
+
+routes.update(view.routes)
