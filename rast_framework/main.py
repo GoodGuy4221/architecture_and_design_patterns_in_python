@@ -16,10 +16,8 @@ class Rust:
         self.fronts = fronts
 
     def __call__(self, environ, start_response):
-        # получаем адрес, по которому выполнен переход
         path = environ['PATH_INFO']
 
-        # добавление закрывающего /
         if not path.endswith('/'):
             path = f'{path}/'
 
